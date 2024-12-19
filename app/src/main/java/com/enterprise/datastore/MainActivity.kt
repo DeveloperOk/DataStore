@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,7 +66,11 @@ fun MainBody() {
 
     val mykey = "my_data_key"
 
-    var textValue = remember{ mutableStateOf("") }
+    var textValue = rememberSaveable{ mutableStateOf("") }
+
+    var inputValue = rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue(""))
+    }
 
     val context = LocalContext.current
 
@@ -90,10 +95,6 @@ fun MainBody() {
         verticalArrangement = Arrangement.Center){
 
        Text(textValue.value)
-
-        var inputValue = remember {
-            mutableStateOf(TextFieldValue(""))
-        }
 
         OutlinedTextField(
             modifier = Modifier
